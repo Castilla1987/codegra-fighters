@@ -1,0 +1,239 @@
+/* ═══════════════════════════════════════════════════════════════
+   retro-screens.css — Efectos CRT / Cyberpunk para Codegra Fighters
+   Complementa styles.css. No tocar variables definidas allí.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. SCANLINES GLOBALES (sobre toda la app) ─────────────────
+   Capa fina de líneas horizontales que simula un monitor CRT.
+   pointer-events:none para que no bloquee clics.             */
+#app::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.10) 0px,
+    rgba(0, 0, 0, 0.10) 1px,
+    transparent        1px,
+    transparent        3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: multiply;
+}
+
+/* ── 2. VIÑETA CRT (bordes oscurecidos como tubo de rayos) ─────*/
+#app::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ── 3. CHROMATIC ABERRATION en títulos ────────────────────────
+   Desplazamiento RGB que simula distorsión de fósforo.       */
+h1.title {
+  position: relative;
+}
+h1.title::before,
+h1.title::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+h1.title::before {
+  color: #ff00cc;
+  transform: translate(-2px, 0);
+  mix-blend-mode: screen;
+}
+h1.title::after {
+  color: #00e5ff;
+  transform: translate(2px, 0);
+  mix-blend-mode: screen;
+}
+
+/* ── 4. FLICKER — parpadeo CRT suave en pantallas de menú ──────*/
+@keyframes crtFlicker {
+  0%   { opacity: 1;    }
+  92%  { opacity: 1;    }
+  93%  { opacity: 0.88; }
+  94%  { opacity: 1;    }
+  96%  { opacity: 0.92; }
+  100% { opacity: 1;    }
+}
+.screen {
+  animation: crtFlicker 8s step-end infinite;
+}
+/* No flickear durante el combate */
+#game-canvas-wrap { animation: none; }
+
+/* ── 5. GLITCH KEYFRAMES (reutilizables con clase .glitch) ─────*/
+@keyframes glitchShift {
+  0%   { clip-path: inset(0 0 98% 0); transform: translate(-3px, 0); }
+  10%  { clip-path: inset(40% 0 50% 0); transform: translate(3px, 0); }
+  20%  { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
+  30%  { clip-path: inset(20% 0 70% 0); transform: translate(2px, 0); }
+  40%  { clip-path: inset(60% 0 30% 0); transform: translate(-3px, 0); }
+  50%  { clip-path: inset(10% 0 85% 0); transform: translate(3px, 0); }
+  60%  { clip-path: inset(90% 0 2% 0); transform: translate(-1px, 0); }
+  70%  { clip-path: inset(35% 0 55% 0); transform: translate(2px, 0); }
+  80%  { clip-path: inset(70% 0 20% 0); transform: translate(-2px, 0); }
+  90%  { clip-path: inset(5% 0 92% 0); transform: translate(3px, 0); }
+  100% { clip-path: inset(0 0 98% 0); transform: translate(0, 0); }
+}
+@keyframes glitchShift2 {
+  0%   { clip-path: inset(50% 0 30% 0); transform: translate(3px, 0);  color: #ff00cc; }
+  25%  { clip-path: inset(15% 0 70% 0); transform: translate(-3px, 0); color: #00e5ff; }
+  50%  { clip-path: inset(75% 0 10% 0); transform: translate(2px, 0);  color: #ff00cc; }
+  75%  { clip-path: inset(25% 0 60% 0); transform: translate(-2px, 0); color: #00e5ff; }
+  100% { clip-path: inset(50% 0 30% 0); transform: translate(3px, 0);  color: #ff00cc; }
+}
+
+/* Clase aplicable a cualquier elemento para efecto glitch */
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  pointer-events: none;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.glitch::before {
+  animation: glitchShift  3.5s infinite linear;
+  color: #ff00cc;
+  opacity: 0.8;
+}
+.glitch::after {
+  animation: glitchShift2 3.5s infinite linear 0.1s;
+  color: #00e5ff;
+  opacity: 0.8;
+}
+
+/* ── 6. BORDE NEÓN ANIMADO en .screen activa ───────────────────
+   El borde del screen principal recorre un gradiente cian→magenta. */
+@keyframes neonBorderPulse {
+  0%,100% {
+    box-shadow:
+      0 0  8px rgba(0,229,255,0.5),
+      0 0 20px rgba(0,229,255,0.2),
+      inset 0 0 12px rgba(0,229,255,0.04);
+    border-color: #00e5ff;
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(255,0,204,0.6),
+      0 0 32px rgba(255,0,204,0.25),
+      inset 0 0 12px rgba(255,0,204,0.05);
+    border-color: #ff00cc;
+  }
+}
+.screen:not(.hidden) {
+  animation: crtFlicker 8s step-end infinite,
+             neonBorderPulse 4s ease-in-out infinite;
+}
+
+/* ── 7. PIXEL CURSOR personalizado en botones ──────────────────*/
+.btn, button, [style*="cursor:pointer"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='0' y='0' width='4' height='4' fill='%2300e5ff'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%2300e5ff'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%2300e5ff'/%3E%3C/svg%3E") 0 0, pointer;
+}
+
+/* ── 8. SELECCIÓN DE TEXTO en colores neón ─────────────────────*/
+::selection {
+  background: rgba(0, 229, 255, 0.35);
+  color: #fff;
+}
+
+/* ── 9. SCROLLBAR cyberpunk (Firefox + Webkit) ─────────────────*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00e5ff #07051a;
+}
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #07051a; }
+::-webkit-scrollbar-thumb { background: #00e5ff; }
+::-webkit-scrollbar-thumb:hover { background: #ff00cc; }
+
+/* ── 10. ENTRADA DE PANTALLAS (transición pixel-wipe) ──────────*/
+@keyframes pixelFadeIn {
+  0%   { opacity: 0; transform: scale(0.98); filter: brightness(2) saturate(0); }
+  60%  { opacity: 1; filter: brightness(1.2) saturate(0.5); }
+  100% { opacity: 1; transform: scale(1);    filter: brightness(1)  saturate(1); }
+}
+.screen:not(.hidden) {
+  animation:
+    crtFlicker       8s  step-end   infinite,
+    neonBorderPulse  4s  ease-in-out infinite,
+    pixelFadeIn      0.22s ease-out  both;
+}
+
+/* ── 11. HP BAR — refuerzo visual neón ─────────────────────────*/
+.hpbar {
+  box-shadow: 0 0 6px rgba(124,252,74,0.5);
+}
+.hpbar.low-hp {
+  box-shadow: 0 0 10px rgba(255,45,45,0.7);
+}
+.spbar {
+  box-shadow: 0 0 6px rgba(0,229,255,0.4);
+}
+
+/* ── 12. PAUSE PANEL — efecto TV apagándose ────────────────────*/
+@keyframes tvOff {
+  0%   { transform: scaleY(1)    scaleX(1);    opacity: 1; }
+  40%  { transform: scaleY(0.01) scaleX(1.05); opacity: 1; }
+  100% { transform: scaleY(0)    scaleX(0);    opacity: 0; }
+}
+/* Aplicar con JS: pausePanel.classList.add('tv-off') al cerrar */
+.tv-off {
+  animation: tvOff 0.28s ease-in forwards;
+}
+
+/* ── 13. CARD HOVER — destello de selección ────────────────────*/
+@keyframes cardSelect {
+  0%   { box-shadow: 0 0  6px rgba(0,229,255,0.3); }
+  50%  { box-shadow: 0 0 20px rgba(0,229,255,0.7), 0 0 6px rgba(255,0,204,0.4); }
+  100% { box-shadow: 0 0  6px rgba(0,229,255,0.3); }
+}
+.acard.ac-selected {
+  animation: cardSelect 1.5s ease-in-out infinite;
+}
+
+/* ── 14. VERSUS SCREEN — flash de entrada ──────────────────────*/
+@keyframes vsFlash {
+  0%   { background: #fff; }
+  30%  { background: rgba(255,0,204,0.15); }
+  100% { background: transparent; }
+}
+#screen-vs::before {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+  animation: vsFlash 0.6s ease-out both;
+}
+
+/* ── 15. NEON SIGN FLICKER en el título del juego ──────────────
+   Aplica a h1.title dentro de #screen-title si existe          */
+@keyframes neonSignFlicker {
+  0%,19%,21%,23%,25%,54%,56%,100% {
+    text-shadow:
+      0 0 10px var(--cyan),
+      0 0 25px var(--cyan),
+      0 0 50px var(--cyan),
+      3px 3px 0 var(--magenta);
+  }
+  20%,24%,55% {
+    text-shadow: none;
+  }
+}
+#screen-title h1.title {
+  animation: neonSignFlicker 6s infinite;
+}
+
