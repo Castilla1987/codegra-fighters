@@ -1,0 +1,29 @@
+<!-- =====================================================
+     UBICACIÓN 1: Botón en el menú título
+     Busca el contenedor de botones del título (donde están
+     "JUGAR" / "ENTRENAMIENTO" / "OPCIONES") y añade este botón
+     junto a ellos:
+     ===================================================== -->
+
+<button class="btn" id="title-btn-logros">🏆 LOGROS</button>
+
+
+<!-- =====================================================
+     UBICACIÓN 2: Pantalla dedicada de logros
+     Insertar este bloque junto a las demás pantallas
+     (screen-title, screen-select, screen-vs, screen-result,
+     screen-training...), ANTES del cierre </body>.
+     ===================================================== -->
+
+<div class="screen hidden" id="screen-achievements">
+  <h1 class="title">🏆 LOGROS</h1>
+  <div style="background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;margin:16px auto;max-width:480px;">
+    <div id="achievements-list" style="max-height:340px;overflow-y:auto;"></div>
+    <div style="text-align:center;margin-top:18px;">
+      <button class="btn small" id="btn-back-achievements">← VOLVER AL MENÚ</button>
+    </div>
+  </div>
+</div>
+
+<!-- La lógica de apertura/cierre ya está incluida en main.js,
+     no necesitas añadir JS extra: solo pega estos dos bloques HTML. -->

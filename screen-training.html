@@ -1,0 +1,59 @@
+<!-- =====================================================
+     PANTALLA DE ENTRENAMIENTO
+     Insertar este bloque ANTES del cierre </body> en el HTML principal.
+     También añadir en el menú título:
+       <button class="btn" id="title-btn-entrenamiento">ENTRENAMIENTO</button>
+     ===================================================== -->
+
+<div class="screen hidden" id="screen-training">
+  <h1 class="title">🥊 MODO ENTRENAMIENTO</h1>
+  <div style="background:rgba(0,0,0,0.55);padding:20px;border-radius:10px;margin:16px auto;max-width:460px;">
+
+    <!-- Selección de personaje -->
+    <div style="margin-bottom:14px;">
+      <label style="display:block;margin-bottom:6px;color:var(--accent2);font-weight:bold;">Tu personaje:</label>
+      <div id="training-char-select" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;"></div>
+      <div style="color:var(--cream);font-size:13px;">Seleccionado: <strong id="training-selected-name" style="color:var(--accent2);">—</strong></div>
+    </div>
+
+    <!-- Oponente -->
+    <div style="margin:12px 0;">
+      <label style="display:block;margin-bottom:5px;color:var(--cream);">Comportamiento del oponente:</label>
+      <select id="training-opponent" style="width:100%;padding:8px;background:#1b2a4a;border:2px solid var(--accent2);border-radius:5px;color:var(--cream);">
+        <option value="static">Estático (no se mueve)</option>
+        <option value="passive">Pasivo (bloquea a veces)</option>
+        <option value="aggressive">Agresivo (ataca al azar)</option>
+        <option value="mirror">Espejo (copia tus movimientos)</option>
+      </select>
+    </div>
+
+    <!-- Recargar (solo durante combate) -->
+    <div style="margin:12px 0;">
+      <label style="display:block;margin-bottom:6px;color:var(--cream);">Recargar (durante el combate):</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn small" id="btn-refill-hp">❤️ HP</button>
+        <button class="btn small" id="btn-refill-meter">⚡ Meter</button>
+        <button class="btn small" id="btn-reset-position">↩️ Posición</button>
+      </div>
+    </div>
+
+    <!-- Debug visuales -->
+    <div style="margin:12px 0;">
+      <label style="display:block;margin-bottom:6px;color:var(--cream);">Debug visual:</label>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <label style="color:var(--cream);display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="debug-hitboxes"> Hitboxes
+        </label>
+        <label style="color:var(--cream);display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="debug-hurtboxes"> Hurtboxes
+        </label>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div style="text-align:center;margin-top:16px;display:flex;flex-direction:column;gap:8px;align-items:center;">
+      <button class="btn" id="btn-training-fight">¡COMENZAR ENTRENAMIENTO!</button>
+      <button class="btn small" id="btn-back-training">← Volver al menú</button>
+    </div>
+  </div>
+</div>

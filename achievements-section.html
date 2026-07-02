@@ -1,0 +1,29 @@
+<!-- =====================================================
+     SECCIÓN DE LOGROS (Fase 6)
+     Insertar en cualquier pantalla (ej: screen-options) o crear una
+     pantalla dedicada "screen-achievements".
+
+     IMPORTANTE: incluir storage.js en el HTML ANTES de main.js:
+       <script src="js/data.js"></script>
+       <script src="js/storage.js"></script>   <-- nuevo
+       <script src="js/state.js"></script>
+       ... resto de scripts ...
+       <script src="js/main.js"></script>
+
+     Para mostrar los logros actualizados antes de abrir la pantalla, llama:
+       loadAndDisplayAchievements('achievements-list');
+     ===================================================== -->
+
+<div style="margin:20px 0;">
+  <h2 style="color:var(--accent2);text-align:center;">🏆 Logros</h2>
+  <div id="achievements-list" style="max-height:240px;overflow-y:auto;margin-top:10px;"></div>
+</div>
+
+<!-- Ejemplo de botón para abrir/actualizar logros desde el menú título:
+<button class="btn small" id="title-btn-logros">LOGROS</button>
+
+document.getElementById('title-btn-logros')?.addEventListener('click', () => {
+  loadAndDisplayAchievements('achievements-list');
+  showScreen('screen-options'); // o la pantalla donde insertaste el bloque
+});
+-->
